@@ -1,0 +1,27 @@
+# fly.toml app configuration file generated for image-processing-backend-fly on 2023-10-27
+#
+# See https://fly.io/docs/reference/configuration/ for information about this file.
+#
+
+app = "image-processing-backend-fly"
+primary_region = "iad" # Choose a region close to your users
+
+[build]
+  builder = "paketobuildpacks/builder:base" # A generic builder, for Python, you might use specific buildpacks later
+
+[env]
+  PORT = "5000"
+
+[http_service]
+  internal_port = 5000
+  force_https = true
+  auto_stop_machines = true
+  auto_start_machines = true
+  min_machines_running = 0
+  max_machines_running = 1
+  processes = ["app"] # Refers to the process defined in your Dockerfile (gunicorn is running 'app')
+
+[[vm]]
+  memory = "1gb" # Adjust based on your image processing memory needs
+  cpu_kind = "shared"
+  cpus = 1
